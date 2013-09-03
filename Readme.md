@@ -1,5 +1,8 @@
-XML parser notes
+XML parser for D
 ================
+
+This is my implementation of an XML parser for the D programming language. I'm no longer actively working on it, but I might review changes and accept them if you send me pull requests.
+
 
 ## Module mfr.range
 
@@ -22,21 +25,25 @@ Also provides functions for detecting a BOM and reading the xml declaration. The
 Most of the parsing is actually implemented in private functions called by tokenize.
 
 Current issues:
+
 - Would probably support wstring and dstring as input without much hassle, but tokens are defined to contain UTF-8 strings. Do we need to make tokens templated structs? Or should we wrap the whole parser (with it's token types) in one big template/struct?
 
 Still to do:
+
 - throw meaningful exceptions types instead of plain Exception
 - adapt it so it can work with various ranges
 - add unit tests for BOM and xml declaration checking.
 
 Probably low priority:
+
 - implement parsing of DTD internal subset
 - add some sort of callback for user-defined entities
 
 
 ## Module mfr.xml
 
-Implement a simple XML tree. Nothing really special about it, except that its built on mfr.xmltok;
+Implements a simple XML tree. Nothing really special about it, except that its built on mfr.xmltok;
 
 Still to do:
+
 - Handle BOM and encoding info in XML declaration; currently only UTF-8 is supported.
