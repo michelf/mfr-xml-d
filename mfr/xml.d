@@ -297,7 +297,7 @@ class Element : Node
 		state = parser.state;
 	}
 	
-	void writeTo(Writer writer)
+	override void writeTo(Writer writer)
 	{
 		OpenElementToken open;
 		open.name = name;
@@ -354,7 +354,7 @@ class PI : Node
 		this.content = content;
 	}
 	
-	void writeTo(Writer writer)
+	override void writeTo(Writer writer)
 	{
 		PIToken pi;
 		pi.target = target;
@@ -382,7 +382,7 @@ class Comment : Node
 		this.content = content;
 	}
 	
-	void writeTo(Writer writer)
+	override void writeTo(Writer writer)
 	{
 		CommentToken comment;
 		comment.content = content;
@@ -410,7 +410,7 @@ class Text : Node
 		this.content = content;
 	}
 	
-	void writeTo(Writer writer)
+	override void writeTo(Writer writer)
 	{
 		CharDataToken cdata;
 		cdata.data = content;
