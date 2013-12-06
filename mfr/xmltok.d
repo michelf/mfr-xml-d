@@ -461,8 +461,9 @@ bool tokenize(alias output, alias state, R)(ref R input)
 						state = ParsingState.IN_DOCTYPE;
 						mixin(tokenOutput);
 						break;
+
 					default:
-					        // nothing here
+						break;
 					}
 					break;
 				case '?':
@@ -566,8 +567,9 @@ bool tokenize(alias output, alias state, R)(ref R input)
 					throw new Exception("Invalid character in doctype.");
 			}
 			break;
+
 		default:
-		        // nothing here
+			break;
 		}
 	}
 	return false;
