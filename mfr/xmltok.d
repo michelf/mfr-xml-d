@@ -461,6 +461,8 @@ bool tokenize(alias output, alias state, R)(ref R input)
 						state = ParsingState.IN_DOCTYPE;
 						mixin(tokenOutput);
 						break;
+					default:
+					        // nothing here
 					}
 					break;
 				case '?':
@@ -564,6 +566,8 @@ bool tokenize(alias output, alias state, R)(ref R input)
 					throw new Exception("Invalid character in doctype.");
 			}
 			break;
+		default:
+		        // nothing here
 		}
 	}
 	return false;
@@ -853,7 +857,7 @@ class XMLWriter(alias output) : Writer
 		writePart();
 	}
 	
-	void opCall(XMLDecl decl)
+	override void opCall(XMLDecl decl)
 	{
 		output.write("<?xml version=\"");
 		output.write(decl.versionNum);
@@ -869,7 +873,7 @@ class XMLWriter(alias output) : Writer
 		}
 		output.write("\"?>");
 	}
-	void opCall(DoctypeToken token)
+	override void opCall(DoctypeToken token)
 	{
 		static string findRightQuote(string value)
 		{
@@ -915,26 +919,26 @@ class XMLWriter(alias output) : Writer
 			output.write(quote);
 		}
 	}
-	void opCall(DoctypeDoneToken token)
+	override void opCall(DoctypeDoneToken token)
 	{
 		output.write(">");
 	}
-	void opCall(CharDataToken token)
+	override void opCall(CharDataToken token)
 	{
 		writeEncoded(token.data, false);
 	}
-	void opCall(OpenElementToken token)
+	override void opCall(OpenElementToken token)
 	{
 		output.write("<");
 		output.write(token.name);
 	}
-	void opCall(CloseElementToken token)
+	override void opCall(CloseElementToken token)
 	{
 		output.write("</");
 		output.write(token.name);
 		output.write(">");
 	}
-	void opCall(AttrToken token)
+	override void opCall(AttrToken token)
 	{
 		output.write(" ");
 		output.write(token.name);
@@ -942,15 +946,15 @@ class XMLWriter(alias output) : Writer
 		writeEncoded(token.value, true);
 		output.write("\"");
 	}
-	void opCall(OpenTagDoneToken token)
+	override void opCall(OpenTagDoneToken token)
 	{
 		output.write(">");
 	}
-	void opCall(EmptyOpenTagDoneToken token)
+	override void opCall(EmptyOpenTagDoneToken token)
 	{
 		output.write("/>");
 	}
-	void opCall(PIToken token)
+	override void opCall(PIToken token)
 	{
 		output.write("<?");
 		output.write(token.target);
@@ -961,19 +965,19 @@ class XMLWriter(alias output) : Writer
 		}
 		output.write("?>");
 	}
-	void opCall(CommentToken token)
+	override void opCall(CommentToken token)
 	{
 		output.write("<!--");
 		output.write(token.content);
 		output.write("-->");
 	}
-	void opCall(CDataSectionToken token)
+	override void opCall(CDataSectionToken token)
 	{
 		output.write("<![CDATA[");
 		output.write(token.content);
 		output.write("]]>");
 	}
-	void opCall(EntityReferenceToken token)
+	override void opCall(EntityReferenceToken token)
 	{
 		output.write("&");
 		output.write(token.entityName);
@@ -1038,25 +1042,25 @@ version (TestWChar) unittest
  */
 class TextWriter(alias output) : Writer
 {
-	void opCall(XMLDecl decl) { }
-	void opCall(DoctypeToken token) { }
-	void opCall(DoctypeDoneToken token) { }
-	void opCall(CharDataToken token)
+	override void opCall(XMLDecl decl) { }
+	override void opCall(DoctypeToken token) { }
+	override void opCall(DoctypeDoneToken token) { }
+	override void opCall(CharDataToken token)
 	{
 		output.write(token.data);
 	}
-	void opCall(OpenElementToken token) { }
-	void opCall(CloseElementToken token) { }
-	void opCall(AttrToken token) { }
-	void opCall(OpenTagDoneToken token) { }
-	void opCall(EmptyOpenTagDoneToken token) { }
-	void opCall(PIToken token) { }
-	void opCall(CommentToken token) { }
-	void opCall(CDataSectionToken token)
+	override void opCall(OpenElementToken token) { }
+	override void opCall(CloseElementToken token) { }
+	override void opCall(AttrToken token) { }
+	override void opCall(OpenTagDoneToken token) { }
+	override void opCall(EmptyOpenTagDoneToken token) { }
+	override void opCall(PIToken token) { }
+	override void opCall(CommentToken token) { }
+	override void opCall(CDataSectionToken token)
 	{
 		output.write(token.content);
 	}
-	void opCall(EntityReferenceToken token)
+	override void opCall(EntityReferenceToken token)
 	{
 	}
 }
